@@ -81,6 +81,7 @@ def anonymize_checkout(checkout: "Checkout") -> "Checkout":
     anonymized_checkout.shipping_address = generate_fake_address()
     anonymized_checkout.billing_address = generate_fake_address()
     anonymized_checkout.note = fake.paragraph()
+    anonymized_checkout.customer_note = fake.paragraph()
     anonymized_checkout_metadata = get_or_create_checkout_metadata(anonymized_checkout)
     anonymized_checkout_metadata.metadata = generate_fake_metadata()
     anonymized_checkout_metadata.private_metadata = generate_fake_metadata()

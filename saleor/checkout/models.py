@@ -86,6 +86,7 @@ class Checkout(models.Model):
         related_name="checkouts",
         on_delete=models.SET_NULL,
     )
+    customer_note = models.TextField(blank=True, default="")
     note = models.TextField(blank=True, default="")
 
     currency = models.CharField(

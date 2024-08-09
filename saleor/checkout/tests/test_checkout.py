@@ -364,7 +364,7 @@ def test_last_change_update(checkout):
     with freeze_time(datetime.datetime.now()) as frozen_datetime:
         assert checkout.last_change != frozen_datetime()
 
-        checkout.note = "Sample note"
+        checkout.customer_note = "Sample note"
         checkout.save()
 
         assert checkout.last_change == pytz.utc.localize(frozen_datetime())

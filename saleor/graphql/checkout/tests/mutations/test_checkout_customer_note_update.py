@@ -33,8 +33,8 @@ CHECKOUT_CUSTOMER_NOTE_UPDATE_MUTATION = """
 def test_checkout_customer_note_update(user_api_client, checkout_with_item):
     # given
     checkout = checkout_with_item
-    checkout.note = ""
-    checkout.save(update_fields=["note"])
+    checkout.customer_note = ""
+    checkout.save(update_fields=["customer_note"])
     previous_last_change = checkout.last_change
 
     customer_note = "New customer note value"
@@ -50,7 +50,7 @@ def test_checkout_customer_note_update(user_api_client, checkout_with_item):
     data = content["data"]["checkoutCustomerNoteUpdate"]
     assert not data["errors"]
     checkout.refresh_from_db()
-    assert checkout.note == customer_note
+    assert checkout.customer_note == customer_note
     assert checkout.last_change != previous_last_change
 
 

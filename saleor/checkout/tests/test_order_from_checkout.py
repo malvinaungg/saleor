@@ -475,7 +475,7 @@ def test_note_in_created_order(
     checkout_with_item.shipping_address = address
     checkout_with_item.billing_address = address
     checkout_with_item.shipping_method = shipping_method
-    checkout_with_item.note = "test_note"
+    checkout_with_item.customer_note = "test_note"
     checkout_with_item.tracking_code = "tracking_code"
     checkout_with_item.redirect_url = "https://www.example.com"
     checkout_with_item.save()
@@ -490,7 +490,7 @@ def test_note_in_created_order(
         user=None,
         app=app,
     )
-    assert order.customer_note == checkout_with_item.note
+    assert order.customer_note == checkout_with_item.customer_note
 
 
 @override_settings(LANGUAGE_CODE="fr")

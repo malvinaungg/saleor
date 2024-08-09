@@ -531,7 +531,14 @@ class Checkout(ModelObjectType[models.Checkout]):
         "saleor.graphql.account.types.Address",
         description="The shipping address of the checkout.",
     )
-    note = graphene.String(required=True, description="The note for the checkout.")
+    customer_note = graphene.String(
+        required=True, description="The customer note for the checkout."
+    )
+    note = graphene.String(
+        required=True,
+        description="The note for the checkout.",
+        deprecation_reason=f"{DEPRECATED_IN_3X_FIELD} Use `customerNote` instead.",
+    )
     discount = graphene.Field(
         Money,
         description=(

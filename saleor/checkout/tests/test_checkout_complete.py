@@ -1080,7 +1080,7 @@ def test_create_order_gift_card_bought_do_not_fulfill_gift_cards_automatically(
 
 def test_note_in_created_order(checkout_with_item, address, customer_user):
     checkout_with_item.shipping_address = address
-    checkout_with_item.note = "test_note"
+    checkout_with_item.customer_note = "test_note"
     checkout_with_item.tracking_code = "tracking_code"
     checkout_with_item.redirect_url = "https://www.example.com"
     checkout_with_item.save()
@@ -1100,7 +1100,7 @@ def test_note_in_created_order(checkout_with_item, address, customer_user):
         app=None,
         manager=manager,
     )
-    assert order.customer_note == checkout_with_item.note
+    assert order.customer_note == checkout_with_item.customer_note
 
 
 def test_create_order_with_variant_tracking_false(
