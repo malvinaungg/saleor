@@ -2,10 +2,37 @@
 
 from django.db import migrations, models
 
+CUSTOMER_NOTE_UPDATE_BATCH_SIZE = 100
+
+
+def queryset_in_batches(queryset):
+    """Slice a queryset into batches.
+
+    Input queryset should be sorted by pk.
+    """
+    start_pk = 0
+
+    while True:
+        qs = queryset.filter(pk__gt=start_pk)[:CUSTOMER_NOTE_UPDATE_BATCH_SIZE]
+        pks = list(qs.values_list("pk", flat=True))
+        if not pks:
+            break
+        yield pks
+        start_pk = pks[-1]
+
 
 def copy_note_to_customer_note(apps, schema_editor):
     Checkout = apps.get_model("checkout", "Checkout")
-    Checkout.objects.filter(note__isnull=False).update(customer_note=models.F("note"))
+
+    queryset = Checkout.objects.filter(note__isnull=False).order_by("pk")
+
+    for batch_pks in queryset_in_batches(queryset):
+        checkouts = Checkout.objects.filter(pk__in=batch_pks)
+
+        for checkout in checkouts:
+            checkout.customer_note = checkout.note
+
+        Checkout.objects.bulk_update(checkouts, ["customer_note"])
 
 
 class Migration(migrations.Migration):
